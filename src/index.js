@@ -1,29 +1,23 @@
 const fs = require("fs").promises;
 
 class ProductManager {
-  constructor(path = "./productsList.json") {
-    this.path = path;
+  constructor() {
+    this.path = "./productsList.json";
     this.products = [];
   }
 
   // Método para crear el archivo.
-  async createField() {
+  async readFile() {
     try {
-      await fs.writeFile(this.path, JSON.stringify(this.products, null, 2));
+      const fileContent = await fs.readFile(this.path, "utf8");
+      return JSON.parse(fileContent);
     } catch (error) {
+      if (error.code === "ENOENT") {
+        await this.saveFile();
+        return [];
+      }
       console.log("Couldn't create field:", error);
-    }
-  }
-
-  // Método para devolver arreglo vacio.
-  async getProducts() {
-    try {
-      const contentArray = await fs.readFile(this.path, "utf-8");
-      const newArray = JSON.parse(contentArray);
-      /* console.log(newArray); */
-      return newArray;
-    } catch (error) {
-      console.log("Couldn't read file:", error);
+      return [];
     }
   }
 
@@ -40,32 +34,28 @@ class ProductManager {
       if (codeExist) {
         throw new Error("The code already exists");
       }
-
       const newProduct = {
         id: this.products.length + 1,
-        title: title,
-        description: description,
-        price: price,
-        thumbnail: thumbnail,
-        code: code,
-        stock: stock,
+        title,
+        description,
+        price,
+        thumbnail,
+        code,
+        stock,
       };
 
       this.products.push(newProduct);
-
-      //Guardar productos nuevos en archivo.
-      await fs.writeFile(this.path, JSON.stringify(this.products, null, 2));
     } catch (error) {
-      console.log("Couldn't add file:", error);
+      console.log("Couldn't add product:", error);
     }
   }
 
   // Método obtener productos según id
   async getProductById(id) {
     try {
-      const contenido = await this.getProducts();
-      const findId = contenido.find((item) => item.id === id);
-      console.log("PRODUCTO", findId);
+      const content = await this.readFile();
+      const findId = content.find((item) => item.id === id);
+      console.log("The product is:", findId);
     } catch (error) {
       console.log("Couldn't find product");
     }
@@ -80,8 +70,6 @@ class ProductManager {
       } else {
         console.log("id not found");
       }
-
-      await fs.writeFile(this.path, JSON.stringify(this.products, null, 2));
     } catch (error) {
       console.log("Couldn't update product", error);
     }
@@ -98,9 +86,20 @@ class ProductManager {
         products.splice(index, 1);
 
         await fs.writeFile(this.path, JSON.stringify(products, null, 2));
+      } else {
+        console.log("Couldn't delete product");
       }
     } catch (error) {
       console.log("Couldn't delete product", error);
+    }
+  }
+
+  async saveFile() {
+    try {
+      await fs.writeFile(this.path, JSON.stringify(this.products, null, 2));
+      console.log("Saved product");
+    } catch (error) {
+      console.log("Couldn't save", error);
     }
   }
 }

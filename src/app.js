@@ -5,7 +5,7 @@ const { ProductManager, productData } = require("./index.js");
 
 // Create instance of ProductManager and create list of products
 const productList = new ProductManager();
-productList.createField();
+productList.readFile();
 productData.forEach((data) => {
   productList.addProduct(...data);
 });
@@ -13,7 +13,7 @@ productData.forEach((data) => {
 // Paths
 app.get("/products", async (req, res) => {
   try {
-    const data = await productList.getProducts();
+    const data = await productList.readFile();
     let limit = req.query.limit;
 
     if (limit) {
@@ -30,7 +30,7 @@ app.get("/products", async (req, res) => {
 
 app.get("/products/:pid", async (req, res) => {
   try {
-    const data = await productList.getProducts();
+    const data = await productList.readFile();
     let productId = req.params.pid;
 
     const findProduct = data.find((item) => item.id == productId);
