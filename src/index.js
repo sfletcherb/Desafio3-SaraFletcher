@@ -56,6 +56,7 @@ class ProductManager {
       const content = await this.readFile();
       const findId = content.find((item) => item.id === id);
       console.log("The product is:", findId);
+      return findId;
     } catch (error) {
       console.log("Couldn't find product");
     }
