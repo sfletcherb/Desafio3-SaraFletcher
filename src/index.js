@@ -22,8 +22,10 @@ class ProductManager {
   }
 
   // Metodo para Agregar un producto al arreglo products
-  async addProduct(title, description, price, thumbnail, code, stock) {
+  async addProduct(dataProducts) {
     try {
+      const { title, description, price, thumbnail, code, stock } =
+        dataProducts;
       const fields = [title, description, price, thumbnail, code, stock];
       const notEmptyFields = fields.every((fieldEmpty) => fieldEmpty);
       if (!notEmptyFields) {
@@ -106,16 +108,86 @@ class ProductManager {
 }
 
 const productData = [
-  ["producto1", "Prueba1", 100, "Sin imagen", "abc123", 10],
-  ["producto2", "Prueba2", 200, "Sin imagen", "abc456", 20],
-  ["producto3", "Prueba3", 300, "Sin imagen", "abc789", 30],
-  ["producto4", "Prueba4", 400, "Sin imagen", "abc159", 40],
-  ["producto5", "Prueba5", 500, "Sin imagen", "abc753", 50],
-  ["producto6", "Prueba6", 600, "Sin imagen", "abc452", 60],
-  ["producto7", "Prueba7", 700, "Sin imagen", "abc984", 70],
-  ["producto8", "Prueba8", 800, "Sin imagen", "abc349", 80],
-  ["producto9", "Prueba9", 900, "Sin imagen", "abc624", 90],
-  ["producto10", "Prueba10", 1000, "Sin imagen", "abc963", 100],
+  {
+    title: "producto1",
+    description: "Prueba1",
+    price: 100,
+    thumbnail: "Sin imagen",
+    code: "abc123",
+    stock: 10,
+  },
+  {
+    title: "producto2",
+    description: "Prueba2",
+    price: 200,
+    thumbnail: "Sin imagen",
+    code: "abc456",
+    stock: 20,
+  },
+  {
+    title: "producto3",
+    description: "Prueba3",
+    price: 300,
+    thumbnail: "Sin imagen",
+    code: "abc789",
+    stock: 30,
+  },
+  {
+    title: "producto4",
+    description: "Prueba4",
+    price: 400,
+    thumbnail: "Sin imagen",
+    code: "abc159",
+    stock: 40,
+  },
+  {
+    title: "producto5",
+    description: "Prueba5",
+    price: 500,
+    thumbnail: "Sin imagen",
+    code: "abc753",
+    stock: 50,
+  },
+  {
+    title: "producto6",
+    description: "Prueba6",
+    price: 600,
+    thumbnail: "Sin imagen",
+    code: "abc452",
+    stock: 60,
+  },
+  {
+    title: "producto7",
+    description: "Prueba7",
+    price: 700,
+    thumbnail: "Sin imagen",
+    code: "abc984",
+    stock: 70,
+  },
+  {
+    title: "producto8",
+    description: "Prueba8",
+    price: 800,
+    thumbnail: "Sin imagen",
+    code: "abc349",
+    stock: 80,
+  },
+  {
+    title: "producto9",
+    description: "Prueba9",
+    price: 900,
+    thumbnail: "Sin imagen",
+    code: "abc624",
+    stock: 90,
+  },
+  {
+    title: "producto10",
+    description: "Prueba10",
+    price: 1000,
+    thumbnail: "Sin imagen",
+    code: "abc963",
+    stock: 100,
+  },
 ];
 
 module.exports = { ProductManager, productData };

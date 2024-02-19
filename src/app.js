@@ -6,7 +6,7 @@ const { ProductManager, productData } = require("./index.js");
 // Create instance of ProductManager and create list of products
 const productList = new ProductManager();
 productData.forEach((data) => {
-  productList.addProduct(...data);
+  productList.addProduct(data);
 });
 
 // Paths
